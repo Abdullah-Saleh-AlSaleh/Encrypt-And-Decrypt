@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace EncryptAndDecrypt
             string encryptionkey = "SAUW193BX628TD57";
             byte[] keybytes = Encoding.ASCII.GetBytes(encryptionkey.Length.ToString());
             RijndaelManaged rijndaelCipher = new RijndaelManaged();
-            byte[] plainText = Encoding.Unicode.GetBytes(inputText.Replace("/", "ABDULLAH").Replace("==", "SALEH"));
+            byte[] plainText = Encoding.Unicode.GetBytes(inputText);
             PasswordDeriveBytes pwdbytes = new PasswordDeriveBytes(encryptionkey, keybytes);
             using (ICryptoTransform encryptrans = rijndaelCipher.CreateEncryptor(pwdbytes.GetBytes(32), pwdbytes.GetBytes(16)))
             {
@@ -37,7 +37,7 @@ namespace EncryptAndDecrypt
             byte[] keybytes = Encoding.ASCII.GetBytes(encryptionkey.Length.ToString());
             RijndaelManaged rijndaelCipher = new RijndaelManaged();
 
-            byte[] encryptedData = Convert.FromBase64String(encryptText.Replace("ABDULLAH", "/").Replace("SALEH", "=="));
+            byte[] encryptedData = Convert.FromBase64String(encryptText);
             PasswordDeriveBytes pwdbytes = new PasswordDeriveBytes(encryptionkey, keybytes);
             using (ICryptoTransform decryptrans = rijndaelCipher.CreateDecryptor(pwdbytes.GetBytes(32), pwdbytes.GetBytes(16)))
             {
@@ -56,12 +56,46 @@ namespace EncryptAndDecrypt
         }
         static void Main(string[] args)
         {
-            string Encrypts = Encrypt(DateTime.Now.ToString("yyyyMMddhhmmss"));
-            string Decrypts = Decrypt(Encrypts);
+            /*
+            string Encrypts1 = Encrypt(DateTime.Now.ToString("HHmmss"));
+            string Encrypts2 = Encrypt(DateTime.Now.ToString("HHmmss"));
+            string Encrypts3 = Encrypt(DateTime.Now.ToString("HHmmss"));
+            string Decrypts1 = Decrypt(Encrypts1);
+            string Decrypts2 = Decrypt(Encrypts2);
+            string Decrypts3 = Decrypt(Encrypts3);
+            
+            Console.WriteLine(Encrypts1);
+            Console.WriteLine(Decrypts1);
+            Console.WriteLine(Encrypts2);
+            Console.WriteLine(Decrypts2);
+            Console.WriteLine(Encrypts3);
+            Console.WriteLine(Decrypts3);
+            */
 
-            Console.WriteLine(Encrypts);
-            Console.WriteLine(Decrypts);
+            Console.WriteLine("-----------------1---------------");
+            Console.WriteLine("Enter   ....");
+           string En=Encrypt(Convert.ToString( Console.ReadLine())).Replace("/", "ABDULLAH").Replace("==", "SALEH").Replace("+", "c");
+           Console.WriteLine(En);
+            Console.WriteLine("Decrypt   ....");
+           Console.WriteLine(Decrypt(En.Replace("ABDULLAH", "/").Replace("SALEH", "==").Replace("c", "+")));
+            Console.WriteLine("-----------------1---------------");
+            Console.WriteLine("-----------------2---------------");
+            Console.WriteLine("Enter   ....");
+            string En2 = Encrypt(Convert.ToString(Console.ReadLine())).Replace("/", "ABDULLAH").Replace("==", "SALEH").Replace("+", "c");
+            Console.WriteLine(En2);
+            Console.WriteLine("Decrypt   ....");
+           Console.WriteLine(Decrypt(En2.Replace("ABDULLAH", "/").Replace("SALEH", "==").Replace("c", "+")));
+            Console.WriteLine("-----------------2---------------");
+            Console.WriteLine("-----------------3---------------");
+            Console.WriteLine("Enter   ....");
+            string En3 = Encrypt(Convert.ToString(Console.ReadLine())).Replace("/", "ABDULLAH").Replace("==", "SALEH").Replace("+", "c");
+            Console.WriteLine(En3);
+            Console.WriteLine("Decrypt   ....");
+            Console.WriteLine(Decrypt(En3.Replace("ABDULLAH", "/").Replace("SALEH", "==").Replace("c", "+")));
+            Console.WriteLine("-----------------3---------------");
 
+            Console.ReadKey(); 
+            
         }
     }
 }
